@@ -116,26 +116,26 @@ def GetResultFileName(index: int, unicode: bool = True) -> typing.Optional[str]:
     func = Everything_GetResultFileNameW if unicode else Everything_GetResultFileNameA
     return utils.PtrToString(func(index), unicode)
 
-def GetResultFullPathName(index: int, unicode: bool = True, getLength: bool = False) -> typing.Optional[typing.Union[str, int]]:
-    if getLength:
+def GetResultFullPathName(index: int, unicode: bool = True, maxLength: int = 260) -> typing.Optional[typing.Union[str, int]]:
+    if maxLength == 0:
         func = Everything_GetResultFullPathNameA
         buffer = ctypes.c_char_p()
-        size = 0
     elif unicode:
         func = Everything_GetResultFullPathNameW
-        buffer = ctypes.create_unicode_buffer(512)
-        size = 512
+        buffer = ctypes.create_unicode_buffer(maxLength + 1)
     else:
         func = Everything_GetResultFullPathNameA
-        buffer = ctypes.create_string_buffer(512)
-        size = 512
+        buffer = ctypes.create_string_buffer(maxLength + 1)
 
-    result = func(index, buffer, size)
+    result = func(index, buffer, maxLength + 1)
     if result == 0:
         return None
-    elif getLength:
+    elif maxLength == 0:
         return result
     else:
+        if result == maxLength:
+            # todo: possible truncation
+            pass
         return utils.PtrToString(buffer, unicode)
 
 def GetResultHighlightedFileName(index: int, unicode: bool = True) -> typing.Optional[str]:
