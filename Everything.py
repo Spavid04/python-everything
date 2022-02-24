@@ -3,9 +3,11 @@ from lib import wrapper
 
 import enum
 import threading
+import time
 
 
-EverythingSearchLock = threading.Lock()
+_EverythingSearchLock = threading.Lock()
+FULL_PATH_MAX_LENGTH = 260
 
 # region Exceptions
 
@@ -53,7 +55,7 @@ def GetExceptionFromStatus(status: Status) -> Exception:
 class QueryStringOptions(enum.IntFlag):
     CaseSensitive = enum.auto()
     Regex = enum.auto()
-    FullPath = enum.auto()
+    MatchInPath = enum.auto()
     WholeWord = enum.auto()
 
 class SortOrder(enum.IntEnum):
@@ -91,6 +93,8 @@ class FieldRequest(enum.IntFlag):
     All = RequestFlags.EVERYTHING_REQUEST_FILE_NAME | RequestFlags.EVERYTHING_REQUEST_PATH | RequestFlags.EVERYTHING_REQUEST_FULL_PATH_AND_FILE_NAME | RequestFlags.EVERYTHING_REQUEST_EXTENSION | RequestFlags.EVERYTHING_REQUEST_SIZE | RequestFlags.EVERYTHING_REQUEST_DATE_CREATED | RequestFlags.EVERYTHING_REQUEST_DATE_MODIFIED | RequestFlags.EVERYTHING_REQUEST_DATE_ACCESSED | RequestFlags.EVERYTHING_REQUEST_ATTRIBUTES
 
 class Query():
+    QUERY_INIT_MAX_WAIT_MS = 2500
+
     def __init__(self,
                  queryString: str,
                  matchingOptions: QueryStringOptions = QueryStringOptions(0),
@@ -116,6 +120,8 @@ class Query():
         self.__executingQuery = False
         self.__resultCount = 0
         self.__currentIndex = 0
+
+        assert self.CheckEverythingLoaded()
 
     def __enter__(self):
         self.Acquire()
@@ -154,8 +160,25 @@ class Query():
 
         return self.GetResult(index)
 
+    def CheckEverythingLoaded(self) -> bool:
+        totalWaited = 0
+        while totalWaited < Query.QUERY_INIT_MAX_WAIT_MS:
+            result = wrapper.IsDBLoaded()
+            status = wrapper.GetLastError()
+            if not result:
+                if status != Status.EVERYTHING_OK:
+                    # not running
+                    raise GetExceptionFromStatus(status)
+                else:
+                    # running but db not loaded yet
+                    time.sleep(0.01)
+                    totalWaited += 10
+                    continue
+            return True
+        return False
+
     def Acquire(self):
-        EverythingSearchLock.acquire()
+        _EverythingSearchLock.acquire()
         self.__lockHeld = True
 
         self.__SetupEverythingOptions()
@@ -167,7 +190,7 @@ class Query():
 
         wrapper.Reset()
 
-        EverythingSearchLock.release()
+        _EverythingSearchLock.release()
 
     def Execute(self):
         if not self.__lockHeld:
@@ -188,7 +211,7 @@ class Query():
     def __SetupEverythingOptions(self):
         wrapper.SetMatchCase(QueryStringOptions.CaseSensitive in self.MatchingOptions)
         wrapper.SetRegex(QueryStringOptions.Regex in self.MatchingOptions)
-        wrapper.SetMatchPath(QueryStringOptions.FullPath in self.MatchingOptions)
+        wrapper.SetMatchPath(QueryStringOptions.MatchInPath in self.MatchingOptions)
         wrapper.SetMatchWholeWord(QueryStringOptions.WholeWord in self.MatchingOptions)
         wrapper.SetOffset(self.StartAtMatch)
         wrapper.SetMax(self.MaxResults)
@@ -214,7 +237,7 @@ class Result():
 
         self.Filename = wrapper.GetResultFileName(index, unicode) if FieldRequest.Filename in fieldFlags else None
         self.ParentDirectory = wrapper.GetResultPath(index, unicode) if FieldRequest.ParentDirectory in fieldFlags else None
-        self.Path = wrapper.GetResultFullPathName(index, unicode) if FieldRequest.Path in fieldFlags else None # todo length?
+        self.Path = wrapper.GetResultFullPathName(index, unicode, FULL_PATH_MAX_LENGTH) if FieldRequest.Path in fieldFlags else None
         self.Extension = wrapper.GetResultExtension(index, unicode) if FieldRequest.Extension in fieldFlags else None
         self.Size = wrapper.GetResultSize(index) if FieldRequest.Size in fieldFlags else None
         self.CreationDate = wrapper.GetResultDateCreated(index) if FieldRequest.CreationDate in fieldFlags else None
@@ -226,6 +249,6 @@ class Result():
         self._RecentlyChangedDate = wrapper.GetResultDateRecentlyChanged(index) if FieldRequest._RecentlyChangedDate in fieldFlags else None
         self._HighlightedFilename = wrapper.GetResultHighlightedFileName(index, unicode) if FieldRequest._HighlightedFilename in fieldFlags else None
         self._HighlightedParentDirectory = wrapper.GetResultHighlightedPath(index, unicode) if FieldRequest._HighlightedParentDirectory in fieldFlags else None
-        self._HighlightedPath = wrapper.GetResultHighlightedFullPathAndFileName(index, unicode) if FieldRequest._HighlightedPath in fieldFlags else None # todo length?
+        self._HighlightedPath = wrapper.GetResultHighlightedFullPathAndFileName(index, unicode) if FieldRequest._HighlightedPath in fieldFlags else None
 
         # endregion

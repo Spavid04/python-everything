@@ -9,6 +9,8 @@ def __dllimport(name):
         return ctypes.WinDLL(name)
     except FileNotFoundError:
         return ctypes.WinDLL(os.path.join(os.path.dirname(__file__), name))
+
+# dll's should be placed next to this file if not in a common dll path
 if sys.maxsize > 2**32:
     __dll = __dllimport("Everything64.dll")
 else:
