@@ -1,3 +1,5 @@
+### Commits before this commit are considered legacy
+
 ### This is a quick and dirty Python 3 wrapper over [Voidtools Everything](https://www.voidtools.com/)
 You should have `Everything[32/64].dll` accessible through standard DLL load methods. If you don't know if that's the case, just drop the DLL file inside the `lib` directory, next to the `c_functions.py` file.
 
