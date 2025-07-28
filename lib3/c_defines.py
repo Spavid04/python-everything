@@ -3,8 +3,10 @@
 # Input Everything3.h SHA256: 5ccadde782b3a4ddd6429a0439d6b3da1ba722fa148d7d04ecc07831cd4706dd
 
 import enum
+import typing
 
 
+#region Status
 class Status(enum.IntEnum):
     OK = 0
     OUT_OF_MEMORY = 0xE0000001
@@ -21,50 +23,111 @@ class Status(enum.IntEnum):
     SHUTDOWN = 0xE000000C
     INVALID_PROPERTY_VALUE_TYPE = 0xE000000D
 
-def StatusToMessage(status: Status) -> str:
-    if status == Status.OK:
-        return "no error"
-    if status == Status.OUT_OF_MEMORY:
-        return "out of memory."
-    if status == Status.IPC_PIPE_NOT_FOUND:
-        return "IPC pipe server not found (Everything search client is not running)"
-    if status == Status.DISCONNECTED:
-        return "disconnected from pipe server"
-    if status == Status.INVALID_PARAMETER:
-        return "invalid parameter"
-    if status == Status.BAD_REQUEST:
-        return "bad request"
-    if status == Status.CANCELLED:
-        return "user cancelled"
-    if status == Status.PROPERTY_NOT_FOUND:
-        return "property not found"
-    if status == Status.SERVER:
-        return "server error (server out of memory)"
-    if status == Status.INVALID_COMMAND:
-        return "invalid command"
-    if status == Status.BAD_RESPONSE:
-        return "bad server response"
-    if status == Status.INSUFFICIENT_BUFFER:
-        return "not enough room to store response data"
-    if status == Status.SHUTDOWN:
-        return "shutdown initiated by user"
-    if status == Status.INVALID_PROPERTY_VALUE_TYPE:
-        return "property value type is incorrect."
-    return "<unknown error>"
+StatusToMessageMap = {
+    Status.OK: "no error",
+    Status.OUT_OF_MEMORY: "out of memory.",
+    Status.IPC_PIPE_NOT_FOUND: "IPC pipe server not found (Everything search client is not running)",
+    Status.DISCONNECTED: "disconnected from pipe server",
+    Status.INVALID_PARAMETER: "invalid parameter",
+    Status.BAD_REQUEST: "bad request",
+    Status.CANCELLED: "user cancelled",
+    Status.PROPERTY_NOT_FOUND: "property not found",
+    Status.SERVER: "server error (server out of memory)",
+    Status.INVALID_COMMAND: "invalid command",
+    Status.BAD_RESPONSE: "bad server response",
+    Status.INSUFFICIENT_BUFFER: "not enough room to store response data",
+    Status.SHUTDOWN: "shutdown initiated by user",
+    Status.INVALID_PROPERTY_VALUE_TYPE: "property value type is incorrect.",
+}
 
+def StatusToMessage(status: Status) -> str:
+    return StatusToMessageMap.get(status, "<unknown error>")
+
+#region Exceptions
+class Everything3Exception(Exception):
+    def __init__(self, *args, status: Status):
+        super().__init__(*args)
+        self.status = status
+
+class E3OutOfMemoryError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.OUT_OF_MEMORY)
+class E3IpcPipeNotFoundError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.IPC_PIPE_NOT_FOUND)
+class E3DisconnectedError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.DISCONNECTED)
+class E3InvalidParameterError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.INVALID_PARAMETER)
+class E3BadRequestError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.BAD_REQUEST)
+class E3CancelledError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.CANCELLED)
+class E3PropertyNotFoundError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.PROPERTY_NOT_FOUND)
+class E3ServerError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.SERVER)
+class E3InvalidCommandError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.INVALID_COMMAND)
+class E3BadResponseError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.BAD_RESPONSE)
+class E3InsufficientBufferError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.INSUFFICIENT_BUFFER)
+class E3ShutdownError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.SHUTDOWN)
+class E3InvalidPropertyValueTypeError(Everything3Exception):
+    def __init__(self, *args):
+        super().__init__(*args, status=Status.INVALID_PROPERTY_VALUE_TYPE)
+
+StatusToExceptionTypeMap = {
+    Status.OUT_OF_MEMORY: E3OutOfMemoryError,
+    Status.IPC_PIPE_NOT_FOUND: E3IpcPipeNotFoundError,
+    Status.DISCONNECTED: E3DisconnectedError,
+    Status.INVALID_PARAMETER: E3InvalidParameterError,
+    Status.BAD_REQUEST: E3BadRequestError,
+    Status.CANCELLED: E3CancelledError,
+    Status.PROPERTY_NOT_FOUND: E3PropertyNotFoundError,
+    Status.SERVER: E3ServerError,
+    Status.INVALID_COMMAND: E3InvalidCommandError,
+    Status.BAD_RESPONSE: E3BadResponseError,
+    Status.INSUFFICIENT_BUFFER: E3InsufficientBufferError,
+    Status.SHUTDOWN: E3ShutdownError,
+    Status.INVALID_PROPERTY_VALUE_TYPE: E3InvalidPropertyValueTypeError,
+}
+
+def StatusToExceptionType(status: Status) -> typing.Optional[typing.Type[Everything3Exception]]:
+    return StatusToExceptionTypeMap.get(status, None)
+#endregion
+#endregion
+
+#region Target Machine
 class TargetMachine(enum.IntEnum):
     UNKNOWN = 0
     X86 = 1
     X64 = 2
     ARM = 3
     ARM64 = 4
+#endregion
 
+#region Folder First Option
 class FolderFirst(enum.IntEnum):
     ASCENDING = 0
     ALWAYS = 1
     NEVER = 2
     DESCENDING = 3
+#endregion
 
+#region Property Type
 class PropertyType(enum.IntEnum):
     NONE = 0
     METADATA = 1
@@ -74,7 +137,9 @@ class PropertyType(enum.IntEnum):
     VOLUME = 5
     SEARCH = 6
     PROPERTY_SYSTEM = 7
+#endregion
 
+#region Property Value
 class PropertyType(enum.IntEnum):
     NULL = 0
     BYTE = 1
@@ -98,7 +163,9 @@ class PropertyType(enum.IntEnum):
     BLOB16 = 19
     BYTE_GET_TEXT = 20
     PROPVARIANT = 21
+#endregion
 
+#region Property ID
 class PropertyId(enum.IntEnum):
     INVALID_PROPERTY_ID = -1
     NAME = 0
@@ -936,4 +1003,7 @@ PropertyIdToValueTypeMap = {
     PropertyId.CONTENT: PropertyType.PSTRING,
     PropertyId.SEPARATOR: PropertyType.NULL,
 }
+def PropertyIdToValueType(id: PropertyId) -> typing.Optional[PropertyType]:
+    return PropertyIdToValueTypeMap.get(id, None)
+#endregion
 

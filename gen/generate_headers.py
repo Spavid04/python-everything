@@ -11,7 +11,7 @@ def print_help():
     print("It's used for generating c_defines.py and c_functions.py.")
     print("Usage: generate_headers.py [path to Everything3.h] [output directory]")
 
-def _quick_get_sha(path) -> str:
+def _quick_get_sha(path: str):
     with open(path, "rb") as f:
         return hashlib.sha256(f.read()).hexdigest()
 
@@ -23,6 +23,15 @@ def _write_generated_header(f, everythingHeaderPath):
 # Changes made here will be lost when re-running that script
 # Input Everything3.h SHA256: {_quick_get_sha(everythingHeaderPath)}""")
     _writeln(f)
+
+def _camelcaseSymbol(symbol: str):
+    newSymbol = ""
+    words = re.finditer(rf"(.+?)?(_|$)", symbol)
+    for word in words:
+        w = word.group(1)
+        if w:
+            newSymbol += w[0].upper() + w[1:].lower()
+    return newSymbol
 
 _HexNumberRegex = "(?:0x)?[a-fA-F0-9]+"
 _CSymbolRegex = "[a-zA-Z_][a-zA-Z0-9_]*"
@@ -36,6 +45,7 @@ def gen_defines(everythingHeaderPath, outDirectory):
     with open(os.path.join(outDirectory, "c_defines.py"), "w", encoding="utf-8") as f:
         _write_generated_header(f, everythingHeaderPath)
         _writeln(f, "import enum")
+        _writeln(f, "import typing")
         _writeln(f)
         _writeln(f)
 
@@ -43,6 +53,7 @@ def gen_defines(everythingHeaderPath, outDirectory):
             print("Parsing error statuses...")
             errorNamesToMessages = []
 
+            _writeln(f, "#region Status")
             _writeln(f, "class Status(enum.IntEnum):")
 
             _writeln(f, f"    OK = 0")
@@ -53,69 +64,109 @@ def gen_defines(everythingHeaderPath, outDirectory):
                 print(f"  error status: {m.group(1)}")
                 _writeln(f, f"    {m.group(1)} = {m.group(2)}")
                 errorNamesToMessages.append((m.group(1), m.group(3) or ""))
+            _writeln(f)
 
+            _writeln(f, "StatusToMessageMap = {")
+            for (name, message) in errorNamesToMessages:
+                _writeln(f, f"    Status.{name}: \"{message or name}\",")
+            _writeln(f, "}")
             _writeln(f)
 
             _writeln(f, "def StatusToMessage(status: Status) -> str:")
-            for (name, message) in errorNamesToMessages:
-                _writeln(f, f"    if status == Status.{name}:")
-                _writeln(f, f"        return \"{message or name}\"")
-            _writeln(f, "    return \"<unknown error>\"")
+            _writeln(f, "    return StatusToMessageMap.get(status, \"<unknown error>\")")
+            _writeln(f)
 
+            _writeln(f, "#region Exceptions")
+            _writeln(f, "class Everything3Exception(Exception):")
+            _writeln(f, "    def __init__(self, *args, status: Status):")
+            _writeln(f, "        super().__init__(*args)")
+            _writeln(f, "        self.status = status")
+            _writeln(f)
+
+            errorNamesToExceptionClass = []
+            for (name, _) in errorNamesToMessages:
+                if name != "OK":
+                    exceptionName = f"E3{_camelcaseSymbol(name)}Error"
+                    _writeln(f, f"class {exceptionName}(Everything3Exception):")
+                    _writeln(f,  "    def __init__(self, *args):")
+                    _writeln(f, f"        super().__init__(*args, status=Status.{name})")
+                    errorNamesToExceptionClass.append((name, exceptionName))
+            _writeln(f)
+
+            _writeln(f, "StatusToExceptionTypeMap = {")
+            for (name, exceptionName) in errorNamesToExceptionClass:
+                _writeln(f, f"    Status.{name}: {exceptionName},")
+            _writeln(f, "}")
+            _writeln(f)
+
+            _writeln(f, "def StatusToExceptionType(status: Status) -> typing.Optional[typing.Type[Everything3Exception]]:")
+            _writeln(f, "    return StatusToExceptionTypeMap.get(status, None)")
+            _writeln(f, "#endregion")
+
+            _writeln(f, "#endregion")
             _writeln(f)
             print("Parsing error statuses OK!")
         gen_errors()
 
         def gen_target_machine():
             print("Parsing target machines...")
+            _writeln(f, "#region Target Machine")
             _writeln(f, "class TargetMachine(enum.IntEnum):")
             ms = re.finditer(rf"^\s*#define\s+EVERYTHING3_TARGET_MACHINE_({_CSymbolRegex})\s+({_HexNumberRegex})", headerContents, re.M)
             for m in ms:
                 print(f"  target machine: {m.group(1)}")
                 _writeln(f, f"    {m.group(1)} = {m.group(2)}")
 
+            _writeln(f, "#endregion")
             _writeln(f)
             print("Parsing target machines OK!")
         gen_target_machine()
 
         def gen_search_folders():
             print("Parsing search folder options...")
+            _writeln(f, "#region Folder First Option")
             _writeln(f, "class FolderFirst(enum.IntEnum):")
             ms = re.finditer(rf"^\s*#define\s+EVERYTHING3_SEARCH_FOLDERS_FIRST_({_CSymbolRegex})\s+({_HexNumberRegex})", headerContents, re.M)
             for m in ms:
                 print(f"  search folder option: {m.group(1)}")
                 _writeln(f, f"    {m.group(1)} = {m.group(2)}")
 
+            _writeln(f, "#endregion")
             _writeln(f)
             print("Parsing search folder options OK!")
         gen_search_folders()
 
         def gen_property_type():
             print("Parsing property types...")
+            _writeln(f, "#region Property Type")
             _writeln(f, "class PropertyType(enum.IntEnum):")
             ms = re.finditer(rf"^\s*#define\s+EVERYTHING3_PROPERTY_TYPE_({_CSymbolRegex})\s+({_HexNumberRegex})", headerContents, re.M)
             for m in ms:
                 print(f"  property type: {m.group(1)}")
                 _writeln(f, f"    {m.group(1)} = {m.group(2)}")
 
+            _writeln(f, "#endregion")
             _writeln(f)
             print("Parsing property types OK!")
         gen_property_type()
 
         def gen_property_value():
             print("Parsing property value types...")
+            _writeln(f, "#region Property Value")
             _writeln(f, "class PropertyType(enum.IntEnum):")
             ms = re.finditer(rf"^\s*#define\s+EVERYTHING3_PROPERTY_VALUE_TYPE_({_CSymbolRegex})\s+({_HexNumberRegex})", headerContents, re.M)
             for m in ms:
                 print(f"  property value type: {m.group(1)}")
                 _writeln(f, f"    {m.group(1)} = {m.group(2)}")
 
+            _writeln(f, "#endregion")
             _writeln(f)
             print("Parsing property value types OK!")
         gen_property_value()
 
         def gen_property_id():
             print("Parsing property ids...")
+            _writeln(f, "#region Property ID")
             propertyTypes = []
 
             _writeln(f, "class PropertyId(enum.IntEnum):")
@@ -139,6 +190,10 @@ def gen_defines(everythingHeaderPath, outDirectory):
                 _writeln(f, f"    PropertyId.{id}: PropertyType.{type},")
             _writeln(f, "}")
 
+            _writeln(f, "def PropertyIdToValueType(id: PropertyId) -> typing.Optional[PropertyType]:")
+            _writeln(f, "    return PropertyIdToValueTypeMap.get(id, None)")
+
+            _writeln(f, "#endregion")
             _writeln(f)
             print("Parsing property ids OK!")
         gen_property_id()
@@ -147,6 +202,8 @@ def gen_defines(everythingHeaderPath, outDirectory):
 
 def gen_functions(everythingHeaderPath, outDirectory):
     # a fairly bad but functional C parser, but at least the parsed code looks very well behaved
+
+    print("Parsing functions...")
 
     sourceTypeToPyTypeMap = {
         "EVERYTHING3_CLIENT*":       "wintypes.LPCVOID",
@@ -195,23 +252,23 @@ else:
         _writeln(f)
         
         functionDeclarationRegex = (
-            "^\s*"
-            "EVERYTHING3_USERAPI\s+"
-            f"({_CSymbolRegex}[\s*]+)" # [1] return value
-            "EVERYTHING3_API\s+"
-            f"({_CSymbolRegex})\s*" # [2] function name
-            "\\(\s*"
-            f"(.+)\s*" # [3] parameter list as string
-            "\\)\s*;"
+            r"^\s*"
+            r"EVERYTHING3_USERAPI\s+"
+            rf"({_CSymbolRegex}[\s*]+)" # [1] return value
+            r"EVERYTHING3_API\s+"
+            rf"({_CSymbolRegex})\s*" # [2] function name
+            r"\(\s*"
+            r"(.+)\s*" # [3] parameter list as string
+            r"\)\s*;"
         )
 
         parameterRegex = (
-            "^\s*"
-            "(?:const\s+)?" # optional const that we throw away
-            f"({_CSymbolRegex})\s*" # [1] parameter type
-            "([\s*]*)" # [2] pointer-ness
-            f"({_CSymbolRegex})\s*" # [3] parameter name
-            ",?"
+            r"^\s*"
+            r"(?:const\s+)?" # optional const that we throw away
+            rf"({_CSymbolRegex})\s*" # [1] parameter type
+            r"([\s*]*)" # [2] pointer-ness
+            rf"({_CSymbolRegex})\s*" # [3] parameter name
+            r",?"
         )
 
         functions = re.finditer(functionDeclarationRegex, headerContents, re.M)
@@ -249,6 +306,7 @@ else:
             Everything_SetSearchA.restype = None
             """
             _writeln(f)
+    print("Parsing functions OK!")
 
 
 def main():
