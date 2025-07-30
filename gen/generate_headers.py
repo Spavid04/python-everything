@@ -153,7 +153,7 @@ def gen_defines(everythingHeaderPath, outDirectory):
         def gen_property_value():
             print("Parsing property value types...")
             _writeln(f, "#region Property Value")
-            _writeln(f, "class PropertyType(enum.IntEnum):")
+            _writeln(f, "class PropertyValueType(enum.IntEnum):")
             ms = re.finditer(rf"^\s*#define\s+EVERYTHING3_PROPERTY_VALUE_TYPE_({_CSymbolRegex})\s+({_HexNumberRegex})", headerContents, re.M)
             for m in ms:
                 print(f"  property value type: {m.group(1)}")
@@ -167,7 +167,7 @@ def gen_defines(everythingHeaderPath, outDirectory):
         def gen_property_id():
             print("Parsing property ids...")
             _writeln(f, "#region Property ID")
-            propertyTypes = []
+            propertyValueTypes = []
 
             _writeln(f, "class PropertyId(enum.IntEnum):")
             _writeln(f, "    INVALID_PROPERTY_ID = -1")
@@ -181,16 +181,16 @@ def gen_defines(everythingHeaderPath, outDirectory):
                 value = mv.group(1)
                 if value == "OWORD":
                     value = "UINT128"
-                propertyTypes.append((m.group(1), value))
+                propertyValueTypes.append((m.group(1), value))
             
             _writeln(f)
 
             _writeln(f, "PropertyIdToValueTypeMap = {")
-            for (id, type) in propertyTypes:
-                _writeln(f, f"    PropertyId.{id}: PropertyType.{type},")
+            for (id, valueType) in propertyValueTypes:
+                _writeln(f, f"    PropertyId.{id}: PropertyValueType.{valueType},")
             _writeln(f, "}")
 
-            _writeln(f, "def PropertyIdToValueType(id: PropertyId) -> typing.Optional[PropertyType]:")
+            _writeln(f, "def PropertyIdToValueType(id: PropertyId) -> typing.Optional[PropertyValueType]:")
             _writeln(f, "    return PropertyIdToValueTypeMap.get(id, None)")
 
             _writeln(f, "#endregion")
@@ -206,10 +206,10 @@ def gen_functions(everythingHeaderPath, outDirectory):
     print("Parsing functions...")
 
     sourceTypeToPyTypeMap = {
-        "EVERYTHING3_CLIENT*":       "wintypes.LPCVOID",
-        "EVERYTHING3_FIND_HANDLE*":  "wintypes.LPCVOID",
-        "EVERYTHING3_SEARCH_STATE*": "wintypes.LPCVOID",
-        "EVERYTHING3_RESULT_LIST*":  "wintypes.LPCVOID",
+        "EVERYTHING3_CLIENT*":       "wintypes.LPVOID",
+        "EVERYTHING3_FIND_HANDLE*":  "wintypes.LPVOID",
+        "EVERYTHING3_SEARCH_STATE*": "wintypes.LPVOID",
+        "EVERYTHING3_RESULT_LIST*":  "wintypes.LPVOID",
 
         "EVERYTHING3_UTF8*":         "wintypes.LPCSTR",
         "EVERYTHING3_WCHAR*":        "wintypes.LPCWSTR",
