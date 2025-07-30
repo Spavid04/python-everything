@@ -167,7 +167,7 @@ class PropertyValueType(enum.IntEnum):
 
 #region Property ID
 class PropertyId(enum.IntEnum):
-    INVALID_PROPERTY_ID = -1
+    INVALID_PROPERTY_ID = 0xffffffff
     NAME = 0
     PATH = 1
     SIZE = 2

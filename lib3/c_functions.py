@@ -7,6 +7,8 @@ from ctypes import wintypes
 import os
 import sys
 
+from .c_structs import *
+
 
 def __dllimport(name):
     try:
@@ -73,87 +75,87 @@ Everything3_IsDBLoaded.argtypes = [wintypes.LPVOID,]
 Everything3_IsDBLoaded.restype = wintypes.BOOL
 
 Everything3_GetRunCountFromFilenameUTF8 = __dll.Everything3_GetRunCountFromFilenameUTF8
-Everything3_GetRunCountFromFilenameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetRunCountFromFilenameUTF8.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_GetRunCountFromFilenameUTF8.restype = wintypes.DWORD
 
 Everything3_GetRunCountFromFilenameW = __dll.Everything3_GetRunCountFromFilenameW
-Everything3_GetRunCountFromFilenameW.argtypes = [wintypes.LPVOID,]
+Everything3_GetRunCountFromFilenameW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,]
 Everything3_GetRunCountFromFilenameW.restype = wintypes.DWORD
 
 Everything3_GetRunCountFromFilenameA = __dll.Everything3_GetRunCountFromFilenameA
-Everything3_GetRunCountFromFilenameA.argtypes = [wintypes.LPVOID,]
+Everything3_GetRunCountFromFilenameA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_GetRunCountFromFilenameA.restype = wintypes.DWORD
 
 Everything3_SetRunCountFromFilenameUTF8 = __dll.Everything3_SetRunCountFromFilenameUTF8
-Everything3_SetRunCountFromFilenameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_SetRunCountFromFilenameUTF8.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,wintypes.DWORD,]
 Everything3_SetRunCountFromFilenameUTF8.restype = wintypes.BOOL
 
 Everything3_SetRunCountFromFilenameW = __dll.Everything3_SetRunCountFromFilenameW
-Everything3_SetRunCountFromFilenameW.argtypes = [wintypes.LPVOID,]
+Everything3_SetRunCountFromFilenameW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,wintypes.DWORD,]
 Everything3_SetRunCountFromFilenameW.restype = wintypes.BOOL
 
 Everything3_SetRunCountFromFilenameA = __dll.Everything3_SetRunCountFromFilenameA
-Everything3_SetRunCountFromFilenameA.argtypes = [wintypes.LPVOID,]
+Everything3_SetRunCountFromFilenameA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,wintypes.DWORD,]
 Everything3_SetRunCountFromFilenameA.restype = wintypes.BOOL
 
 Everything3_IncRunCountFromFilenameUTF8 = __dll.Everything3_IncRunCountFromFilenameUTF8
-Everything3_IncRunCountFromFilenameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_IncRunCountFromFilenameUTF8.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_IncRunCountFromFilenameUTF8.restype = wintypes.DWORD
 
 Everything3_IncRunCountFromFilenameW = __dll.Everything3_IncRunCountFromFilenameW
-Everything3_IncRunCountFromFilenameW.argtypes = [wintypes.LPVOID,]
+Everything3_IncRunCountFromFilenameW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,]
 Everything3_IncRunCountFromFilenameW.restype = wintypes.DWORD
 
 Everything3_IncRunCountFromFilenameA = __dll.Everything3_IncRunCountFromFilenameA
-Everything3_IncRunCountFromFilenameA.argtypes = [wintypes.LPVOID,]
+Everything3_IncRunCountFromFilenameA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_IncRunCountFromFilenameA.restype = wintypes.DWORD
 
 Everything3_GetFolderSizeFromFilenameUTF8 = __dll.Everything3_GetFolderSizeFromFilenameUTF8
-Everything3_GetFolderSizeFromFilenameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetFolderSizeFromFilenameUTF8.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_GetFolderSizeFromFilenameUTF8.restype = ctypes.c_uint64
 
 Everything3_GetFolderSizeFromFilenameW = __dll.Everything3_GetFolderSizeFromFilenameW
-Everything3_GetFolderSizeFromFilenameW.argtypes = [wintypes.LPVOID,]
+Everything3_GetFolderSizeFromFilenameW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,]
 Everything3_GetFolderSizeFromFilenameW.restype = ctypes.c_uint64
 
 Everything3_GetFolderSizeFromFilenameA = __dll.Everything3_GetFolderSizeFromFilenameA
-Everything3_GetFolderSizeFromFilenameA.argtypes = [wintypes.LPVOID,]
+Everything3_GetFolderSizeFromFilenameA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_GetFolderSizeFromFilenameA.restype = ctypes.c_uint64
 
 Everything3_GetFileAttributesExW = __dll.Everything3_GetFileAttributesExW
-Everything3_GetFileAttributesExW.argtypes = [wintypes.LPVOID,]
+Everything3_GetFileAttributesExW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,wintypes.LPWIN32_FIND_DATAW,]
 Everything3_GetFileAttributesExW.restype = wintypes.BOOL
 
 Everything3_GetFileAttributesExA = __dll.Everything3_GetFileAttributesExA
-Everything3_GetFileAttributesExA.argtypes = [wintypes.LPVOID,]
+Everything3_GetFileAttributesExA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,wintypes.LPWIN32_FIND_DATAA,]
 Everything3_GetFileAttributesExA.restype = wintypes.BOOL
 
 Everything3_GetFileAttributesUTF8 = __dll.Everything3_GetFileAttributesUTF8
-Everything3_GetFileAttributesUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetFileAttributesUTF8.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_GetFileAttributesUTF8.restype = wintypes.DWORD
 
 Everything3_GetFileAttributesW = __dll.Everything3_GetFileAttributesW
-Everything3_GetFileAttributesW.argtypes = [wintypes.LPVOID,]
+Everything3_GetFileAttributesW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,]
 Everything3_GetFileAttributesW.restype = wintypes.DWORD
 
 Everything3_GetFileAttributesA = __dll.Everything3_GetFileAttributesA
-Everything3_GetFileAttributesA.argtypes = [wintypes.LPVOID,]
+Everything3_GetFileAttributesA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_GetFileAttributesA.restype = wintypes.DWORD
 
 Everything3_FindFirstFileW = __dll.Everything3_FindFirstFileW
-Everything3_FindFirstFileW.argtypes = [wintypes.LPVOID,]
+Everything3_FindFirstFileW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,wintypes.LPWIN32_FIND_DATAW,]
 Everything3_FindFirstFileW.restype = wintypes.LPVOID
 
 Everything3_FindFirstFileA = __dll.Everything3_FindFirstFileA
-Everything3_FindFirstFileA.argtypes = [wintypes.LPVOID,]
+Everything3_FindFirstFileA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,wintypes.LPWIN32_FIND_DATAA,]
 Everything3_FindFirstFileA.restype = wintypes.LPVOID
 
 Everything3_FindNextFileW = __dll.Everything3_FindNextFileW
-Everything3_FindNextFileW.argtypes = [wintypes.LPVOID,]
+Everything3_FindNextFileW.argtypes = [wintypes.LPVOID,wintypes.LPWIN32_FIND_DATAW,]
 Everything3_FindNextFileW.restype = wintypes.BOOL
 
 Everything3_FindNextFileA = __dll.Everything3_FindNextFileA
-Everything3_FindNextFileA.argtypes = [wintypes.LPVOID,]
+Everything3_FindNextFileA.argtypes = [wintypes.LPVOID,wintypes.LPWIN32_FIND_DATAA,]
 Everything3_FindNextFileA.restype = wintypes.BOOL
 
 Everything3_FindClose = __dll.Everything3_FindClose
@@ -161,51 +163,51 @@ Everything3_FindClose.argtypes = [wintypes.LPVOID,]
 Everything3_FindClose.restype = wintypes.BOOL
 
 Everything3_FindPropertyUTF8 = __dll.Everything3_FindPropertyUTF8
-Everything3_FindPropertyUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_FindPropertyUTF8.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_FindPropertyUTF8.restype = wintypes.DWORD
 
 Everything3_FindPropertyW = __dll.Everything3_FindPropertyW
-Everything3_FindPropertyW.argtypes = [wintypes.LPVOID,]
+Everything3_FindPropertyW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,]
 Everything3_FindPropertyW.restype = wintypes.DWORD
 
 Everything3_FindPropertyA = __dll.Everything3_FindPropertyA
-Everything3_FindPropertyA.argtypes = [wintypes.LPVOID,]
+Everything3_FindPropertyA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_FindPropertyA.restype = wintypes.DWORD
 
 Everything3_GetPropertyNameUTF8 = __dll.Everything3_GetPropertyNameUTF8
-Everything3_GetPropertyNameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetPropertyNameUTF8.argtypes = [wintypes.LPVOID,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetPropertyNameUTF8.restype = ctypes.c_size_t
 
 Everything3_GetPropertyNameW = __dll.Everything3_GetPropertyNameW
-Everything3_GetPropertyNameW.argtypes = [wintypes.LPVOID,]
+Everything3_GetPropertyNameW.argtypes = [wintypes.LPVOID,wintypes.DWORD,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetPropertyNameW.restype = ctypes.c_size_t
 
 Everything3_GetPropertyNameA = __dll.Everything3_GetPropertyNameA
-Everything3_GetPropertyNameA.argtypes = [wintypes.LPVOID,]
+Everything3_GetPropertyNameA.argtypes = [wintypes.LPVOID,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetPropertyNameA.restype = ctypes.c_size_t
 
 Everything3_GetPropertyCanonicalNameUTF8 = __dll.Everything3_GetPropertyCanonicalNameUTF8
-Everything3_GetPropertyCanonicalNameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetPropertyCanonicalNameUTF8.argtypes = [wintypes.LPVOID,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetPropertyCanonicalNameUTF8.restype = ctypes.c_size_t
 
 Everything3_GetPropertyCanonicalNameW = __dll.Everything3_GetPropertyCanonicalNameW
-Everything3_GetPropertyCanonicalNameW.argtypes = [wintypes.LPVOID,]
+Everything3_GetPropertyCanonicalNameW.argtypes = [wintypes.LPVOID,wintypes.DWORD,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetPropertyCanonicalNameW.restype = ctypes.c_size_t
 
 Everything3_GetPropertyCanonicalNameA = __dll.Everything3_GetPropertyCanonicalNameA
-Everything3_GetPropertyCanonicalNameA.argtypes = [wintypes.LPVOID,]
+Everything3_GetPropertyCanonicalNameA.argtypes = [wintypes.LPVOID,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetPropertyCanonicalNameA.restype = ctypes.c_size_t
 
 Everything3_GetPropertyType = __dll.Everything3_GetPropertyType
-Everything3_GetPropertyType.argtypes = [wintypes.LPVOID,]
+Everything3_GetPropertyType.argtypes = [wintypes.LPVOID,wintypes.DWORD,]
 Everything3_GetPropertyType.restype = wintypes.DWORD
 
 Everything3_IsPropertyIndexed = __dll.Everything3_IsPropertyIndexed
-Everything3_IsPropertyIndexed.argtypes = [wintypes.LPVOID,]
+Everything3_IsPropertyIndexed.argtypes = [wintypes.LPVOID,wintypes.DWORD,]
 Everything3_IsPropertyIndexed.restype = wintypes.BOOL
 
 Everything3_IsPropertyFastSort = __dll.Everything3_IsPropertyFastSort
-Everything3_IsPropertyFastSort.argtypes = [wintypes.LPVOID,]
+Everything3_IsPropertyFastSort.argtypes = [wintypes.LPVOID,wintypes.DWORD,]
 Everything3_IsPropertyFastSort.restype = wintypes.BOOL
 
 Everything3_CreateSearchState = __dll.Everything3_CreateSearchState
@@ -217,71 +219,71 @@ Everything3_DestroySearchState.argtypes = [wintypes.LPVOID,]
 Everything3_DestroySearchState.restype = wintypes.BOOL
 
 Everything3_SetSearchMatchCase = __dll.Everything3_SetSearchMatchCase
-Everything3_SetSearchMatchCase.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchMatchCase.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchMatchCase.restype = wintypes.BOOL
 
 Everything3_SetSearchMatchDiacritics = __dll.Everything3_SetSearchMatchDiacritics
-Everything3_SetSearchMatchDiacritics.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchMatchDiacritics.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchMatchDiacritics.restype = wintypes.BOOL
 
 Everything3_SetSearchMatchWholeWords = __dll.Everything3_SetSearchMatchWholeWords
-Everything3_SetSearchMatchWholeWords.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchMatchWholeWords.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchMatchWholeWords.restype = wintypes.BOOL
 
 Everything3_SetSearchMatchPath = __dll.Everything3_SetSearchMatchPath
-Everything3_SetSearchMatchPath.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchMatchPath.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchMatchPath.restype = wintypes.BOOL
 
 Everything3_SetSearchMatchPrefix = __dll.Everything3_SetSearchMatchPrefix
-Everything3_SetSearchMatchPrefix.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchMatchPrefix.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchMatchPrefix.restype = wintypes.BOOL
 
 Everything3_SetSearchMatchSuffix = __dll.Everything3_SetSearchMatchSuffix
-Everything3_SetSearchMatchSuffix.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchMatchSuffix.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchMatchSuffix.restype = wintypes.BOOL
 
 Everything3_SetSearchIgnorePunctuation = __dll.Everything3_SetSearchIgnorePunctuation
-Everything3_SetSearchIgnorePunctuation.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchIgnorePunctuation.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchIgnorePunctuation.restype = wintypes.BOOL
 
 Everything3_SetSearchWhitespace = __dll.Everything3_SetSearchWhitespace
-Everything3_SetSearchWhitespace.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchWhitespace.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchWhitespace.restype = wintypes.BOOL
 
 Everything3_SetSearchRegex = __dll.Everything3_SetSearchRegex
-Everything3_SetSearchRegex.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchRegex.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchRegex.restype = wintypes.BOOL
 
 Everything3_SetSearchFoldersFirst = __dll.Everything3_SetSearchFoldersFirst
-Everything3_SetSearchFoldersFirst.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchFoldersFirst.argtypes = [wintypes.LPVOID,wintypes.DWORD,]
 Everything3_SetSearchFoldersFirst.restype = wintypes.BOOL
 
 Everything3_SetSearchRequestTotalSize = __dll.Everything3_SetSearchRequestTotalSize
-Everything3_SetSearchRequestTotalSize.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchRequestTotalSize.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchRequestTotalSize.restype = wintypes.BOOL
 
 Everything3_SetSearchHideResultOmissions = __dll.Everything3_SetSearchHideResultOmissions
-Everything3_SetSearchHideResultOmissions.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchHideResultOmissions.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchHideResultOmissions.restype = wintypes.BOOL
 
 Everything3_SetSearchSortMix = __dll.Everything3_SetSearchSortMix
-Everything3_SetSearchSortMix.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchSortMix.argtypes = [wintypes.LPVOID,wintypes.BOOL,]
 Everything3_SetSearchSortMix.restype = wintypes.BOOL
 
 Everything3_SetSearchTextUTF8 = __dll.Everything3_SetSearchTextUTF8
-Everything3_SetSearchTextUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchTextUTF8.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_SetSearchTextUTF8.restype = wintypes.BOOL
 
 Everything3_SetSearchTextW = __dll.Everything3_SetSearchTextW
-Everything3_SetSearchTextW.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchTextW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,]
 Everything3_SetSearchTextW.restype = wintypes.BOOL
 
 Everything3_SetSearchTextA = __dll.Everything3_SetSearchTextA
-Everything3_SetSearchTextA.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchTextA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,]
 Everything3_SetSearchTextA.restype = wintypes.BOOL
 
 Everything3_AddSearchSort = __dll.Everything3_AddSearchSort
-Everything3_AddSearchSort.argtypes = [wintypes.LPVOID,]
+Everything3_AddSearchSort.argtypes = [wintypes.LPVOID,wintypes.DWORD,wintypes.BOOL,]
 Everything3_AddSearchSort.restype = wintypes.BOOL
 
 Everything3_ClearSearchSorts = __dll.Everything3_ClearSearchSorts
@@ -289,15 +291,15 @@ Everything3_ClearSearchSorts.argtypes = [wintypes.LPVOID,]
 Everything3_ClearSearchSorts.restype = wintypes.BOOL
 
 Everything3_AddSearchPropertyRequest = __dll.Everything3_AddSearchPropertyRequest
-Everything3_AddSearchPropertyRequest.argtypes = [wintypes.LPVOID,]
+Everything3_AddSearchPropertyRequest.argtypes = [wintypes.LPVOID,wintypes.DWORD,]
 Everything3_AddSearchPropertyRequest.restype = wintypes.BOOL
 
 Everything3_AddSearchPropertyRequestFormatted = __dll.Everything3_AddSearchPropertyRequestFormatted
-Everything3_AddSearchPropertyRequestFormatted.argtypes = [wintypes.LPVOID,]
+Everything3_AddSearchPropertyRequestFormatted.argtypes = [wintypes.LPVOID,wintypes.DWORD,]
 Everything3_AddSearchPropertyRequestFormatted.restype = wintypes.BOOL
 
 Everything3_AddSearchPropertyRequestHighlighted = __dll.Everything3_AddSearchPropertyRequestHighlighted
-Everything3_AddSearchPropertyRequestHighlighted.argtypes = [wintypes.LPVOID,]
+Everything3_AddSearchPropertyRequestHighlighted.argtypes = [wintypes.LPVOID,wintypes.DWORD,]
 Everything3_AddSearchPropertyRequestHighlighted.restype = wintypes.BOOL
 
 Everything3_ClearSearchPropertyRequests = __dll.Everything3_ClearSearchPropertyRequests
@@ -305,11 +307,11 @@ Everything3_ClearSearchPropertyRequests.argtypes = [wintypes.LPVOID,]
 Everything3_ClearSearchPropertyRequests.restype = wintypes.BOOL
 
 Everything3_SetSearchViewportOffset = __dll.Everything3_SetSearchViewportOffset
-Everything3_SetSearchViewportOffset.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchViewportOffset.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_SetSearchViewportOffset.restype = wintypes.BOOL
 
 Everything3_SetSearchViewportCount = __dll.Everything3_SetSearchViewportCount
-Everything3_SetSearchViewportCount.argtypes = [wintypes.LPVOID,]
+Everything3_SetSearchViewportCount.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_SetSearchViewportCount.restype = wintypes.BOOL
 
 Everything3_GetSearchMatchCase = __dll.Everything3_GetSearchMatchCase
@@ -365,15 +367,15 @@ Everything3_GetSearchSortMix.argtypes = [wintypes.LPVOID,]
 Everything3_GetSearchSortMix.restype = wintypes.BOOL
 
 Everything3_GetSearchTextUTF8 = __dll.Everything3_GetSearchTextUTF8
-Everything3_GetSearchTextUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetSearchTextUTF8.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetSearchTextUTF8.restype = ctypes.c_size_t
 
 Everything3_GetSearchTextW = __dll.Everything3_GetSearchTextW
-Everything3_GetSearchTextW.argtypes = [wintypes.LPVOID,]
+Everything3_GetSearchTextW.argtypes = [wintypes.LPVOID,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetSearchTextW.restype = ctypes.c_size_t
 
 Everything3_GetSearchTextA = __dll.Everything3_GetSearchTextA
-Everything3_GetSearchTextA.argtypes = [wintypes.LPVOID,]
+Everything3_GetSearchTextA.argtypes = [wintypes.LPVOID,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetSearchTextA.restype = ctypes.c_size_t
 
 Everything3_GetSearchSortCount = __dll.Everything3_GetSearchSortCount
@@ -381,11 +383,11 @@ Everything3_GetSearchSortCount.argtypes = [wintypes.LPVOID,]
 Everything3_GetSearchSortCount.restype = ctypes.c_size_t
 
 Everything3_GetSearchSortPropertyId = __dll.Everything3_GetSearchSortPropertyId
-Everything3_GetSearchSortPropertyId.argtypes = [wintypes.LPVOID,]
+Everything3_GetSearchSortPropertyId.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetSearchSortPropertyId.restype = wintypes.DWORD
 
 Everything3_GetSearchSortAscending = __dll.Everything3_GetSearchSortAscending
-Everything3_GetSearchSortAscending.argtypes = [wintypes.LPVOID,]
+Everything3_GetSearchSortAscending.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetSearchSortAscending.restype = wintypes.BOOL
 
 Everything3_GetSearchPropertyRequestCount = __dll.Everything3_GetSearchPropertyRequestCount
@@ -393,15 +395,15 @@ Everything3_GetSearchPropertyRequestCount.argtypes = [wintypes.LPVOID,]
 Everything3_GetSearchPropertyRequestCount.restype = ctypes.c_size_t
 
 Everything3_GetSearchPropertyRequestPropertyId = __dll.Everything3_GetSearchPropertyRequestPropertyId
-Everything3_GetSearchPropertyRequestPropertyId.argtypes = [wintypes.LPVOID,]
+Everything3_GetSearchPropertyRequestPropertyId.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetSearchPropertyRequestPropertyId.restype = wintypes.DWORD
 
 Everything3_GetSearchPropertyRequestHighlight = __dll.Everything3_GetSearchPropertyRequestHighlight
-Everything3_GetSearchPropertyRequestHighlight.argtypes = [wintypes.LPVOID,]
+Everything3_GetSearchPropertyRequestHighlight.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetSearchPropertyRequestHighlight.restype = wintypes.BOOL
 
 Everything3_GetSearchPropertyRequestFormat = __dll.Everything3_GetSearchPropertyRequestFormat
-Everything3_GetSearchPropertyRequestFormat.argtypes = [wintypes.LPVOID,]
+Everything3_GetSearchPropertyRequestFormat.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetSearchPropertyRequestFormat.restype = wintypes.BOOL
 
 Everything3_GetSearchViewportOffset = __dll.Everything3_GetSearchViewportOffset
@@ -413,15 +415,15 @@ Everything3_GetSearchViewportCount.argtypes = [wintypes.LPVOID,]
 Everything3_GetSearchViewportCount.restype = ctypes.c_size_t
 
 Everything3_Search = __dll.Everything3_Search
-Everything3_Search.argtypes = [wintypes.LPVOID,]
+Everything3_Search.argtypes = [wintypes.LPVOID,wintypes.LPVOID,]
 Everything3_Search.restype = wintypes.LPVOID
 
 Everything3_GetResults = __dll.Everything3_GetResults
-Everything3_GetResults.argtypes = [wintypes.LPVOID,]
+Everything3_GetResults.argtypes = [wintypes.LPVOID,wintypes.LPVOID,]
 Everything3_GetResults.restype = wintypes.LPVOID
 
 Everything3_Sort = __dll.Everything3_Sort
-Everything3_Sort.argtypes = [wintypes.LPVOID,]
+Everything3_Sort.argtypes = [wintypes.LPVOID,wintypes.LPVOID,]
 Everything3_Sort.restype = wintypes.LPVOID
 
 Everything3_IsResultListChange = __dll.Everything3_IsResultListChange
@@ -465,11 +467,11 @@ Everything3_GetResultListSortCount.argtypes = [wintypes.LPVOID,]
 Everything3_GetResultListSortCount.restype = ctypes.c_size_t
 
 Everything3_GetResultListSortPropertyId = __dll.Everything3_GetResultListSortPropertyId
-Everything3_GetResultListSortPropertyId.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultListSortPropertyId.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultListSortPropertyId.restype = wintypes.DWORD
 
 Everything3_GetResultListSortAscending = __dll.Everything3_GetResultListSortAscending
-Everything3_GetResultListSortAscending.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultListSortAscending.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultListSortAscending.restype = wintypes.BOOL
 
 Everything3_GetResultListPropertyRequestCount = __dll.Everything3_GetResultListPropertyRequestCount
@@ -477,198 +479,198 @@ Everything3_GetResultListPropertyRequestCount.argtypes = [wintypes.LPVOID,]
 Everything3_GetResultListPropertyRequestCount.restype = ctypes.c_size_t
 
 Everything3_GetResultListPropertyRequestPropertyId = __dll.Everything3_GetResultListPropertyRequestPropertyId
-Everything3_GetResultListPropertyRequestPropertyId.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultListPropertyRequestPropertyId.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultListPropertyRequestPropertyId.restype = wintypes.DWORD
 
 Everything3_GetResultListPropertyRequestValueType = __dll.Everything3_GetResultListPropertyRequestValueType
-Everything3_GetResultListPropertyRequestValueType.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultListPropertyRequestValueType.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultListPropertyRequestValueType.restype = wintypes.DWORD
 
 Everything3_GetResultListPropertyRequestOffset = __dll.Everything3_GetResultListPropertyRequestOffset
-Everything3_GetResultListPropertyRequestOffset.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultListPropertyRequestOffset.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultListPropertyRequestOffset.restype = ctypes.c_size_t
 
 Everything3_IsFolderResult = __dll.Everything3_IsFolderResult
-Everything3_IsFolderResult.argtypes = [wintypes.LPVOID,]
+Everything3_IsFolderResult.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_IsFolderResult.restype = wintypes.BOOL
 
 Everything3_IsRootResult = __dll.Everything3_IsRootResult
-Everything3_IsRootResult.argtypes = [wintypes.LPVOID,]
+Everything3_IsRootResult.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_IsRootResult.restype = wintypes.BOOL
 
 Everything3_GetResultPropertyTextUTF8 = __dll.Everything3_GetResultPropertyTextUTF8
-Everything3_GetResultPropertyTextUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyTextW = __dll.Everything3_GetResultPropertyTextW
-Everything3_GetResultPropertyTextW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextW.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyTextA = __dll.Everything3_GetResultPropertyTextA
-Everything3_GetResultPropertyTextA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextA.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyTextFormattedUTF8 = __dll.Everything3_GetResultPropertyTextFormattedUTF8
-Everything3_GetResultPropertyTextFormattedUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextFormattedUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextFormattedUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyTextFormattedW = __dll.Everything3_GetResultPropertyTextFormattedW
-Everything3_GetResultPropertyTextFormattedW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextFormattedW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextFormattedW.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyTextFormattedA = __dll.Everything3_GetResultPropertyTextFormattedA
-Everything3_GetResultPropertyTextFormattedA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextFormattedA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextFormattedA.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyTextHighlightedUTF8 = __dll.Everything3_GetResultPropertyTextHighlightedUTF8
-Everything3_GetResultPropertyTextHighlightedUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextHighlightedUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextHighlightedUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyTextHighlightedW = __dll.Everything3_GetResultPropertyTextHighlightedW
-Everything3_GetResultPropertyTextHighlightedW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextHighlightedW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextHighlightedW.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyTextHighlightedA = __dll.Everything3_GetResultPropertyTextHighlightedA
-Everything3_GetResultPropertyTextHighlightedA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyTextHighlightedA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultPropertyTextHighlightedA.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyBYTE = __dll.Everything3_GetResultPropertyBYTE
-Everything3_GetResultPropertyBYTE.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyBYTE.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,]
 Everything3_GetResultPropertyBYTE.restype = wintypes.BYTE
 
 Everything3_GetResultPropertyWORD = __dll.Everything3_GetResultPropertyWORD
-Everything3_GetResultPropertyWORD.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyWORD.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,]
 Everything3_GetResultPropertyWORD.restype = wintypes.WORD
 
 Everything3_GetResultPropertyDWORD = __dll.Everything3_GetResultPropertyDWORD
-Everything3_GetResultPropertyDWORD.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyDWORD.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,]
 Everything3_GetResultPropertyDWORD.restype = wintypes.DWORD
 
 Everything3_GetResultPropertyUINT64 = __dll.Everything3_GetResultPropertyUINT64
-Everything3_GetResultPropertyUINT64.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyUINT64.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,]
 Everything3_GetResultPropertyUINT64.restype = ctypes.c_uint64
 
 Everything3_GetResultPropertyUINT128 = __dll.Everything3_GetResultPropertyUINT128
-Everything3_GetResultPropertyUINT128.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyUINT128.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,ctypes.POINTER(UInt128),]
 Everything3_GetResultPropertyUINT128.restype = wintypes.BOOL
 
 Everything3_GetResultPropertyDIMENSIONS = __dll.Everything3_GetResultPropertyDIMENSIONS
-Everything3_GetResultPropertyDIMENSIONS.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyDIMENSIONS.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,ctypes.POINTER(Dimensions),]
 Everything3_GetResultPropertyDIMENSIONS.restype = wintypes.BOOL
 
 Everything3_GetResultPropertySIZE_T = __dll.Everything3_GetResultPropertySIZE_T
-Everything3_GetResultPropertySIZE_T.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertySIZE_T.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,]
 Everything3_GetResultPropertySIZE_T.restype = ctypes.c_size_t
 
 Everything3_GetResultPropertyINT32 = __dll.Everything3_GetResultPropertyINT32
-Everything3_GetResultPropertyINT32.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyINT32.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,]
 Everything3_GetResultPropertyINT32.restype = ctypes.c_int32
 
 Everything3_GetResultPropertyBlob = __dll.Everything3_GetResultPropertyBlob
-Everything3_GetResultPropertyBlob.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPropertyBlob.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.DWORD,ctypes.POINTER(wintypes.BYTE),ctypes.POINTER(ctypes.c_size_t),]
 Everything3_GetResultPropertyBlob.restype = wintypes.BOOL
 
 Everything3_GetResultNameUTF8 = __dll.Everything3_GetResultNameUTF8
-Everything3_GetResultNameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultNameUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultNameUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultNameW = __dll.Everything3_GetResultNameW
-Everything3_GetResultNameW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultNameW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultNameW.restype = ctypes.c_size_t
 
 Everything3_GetResultNameA = __dll.Everything3_GetResultNameA
-Everything3_GetResultNameA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultNameA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultNameA.restype = ctypes.c_size_t
 
 Everything3_GetResultPathUTF8 = __dll.Everything3_GetResultPathUTF8
-Everything3_GetResultPathUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPathUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultPathUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultPathW = __dll.Everything3_GetResultPathW
-Everything3_GetResultPathW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPathW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultPathW.restype = ctypes.c_size_t
 
 Everything3_GetResultPathA = __dll.Everything3_GetResultPathA
-Everything3_GetResultPathA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultPathA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultPathA.restype = ctypes.c_size_t
 
 Everything3_GetResultFullPathNameUTF8 = __dll.Everything3_GetResultFullPathNameUTF8
-Everything3_GetResultFullPathNameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultFullPathNameUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultFullPathNameUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultFullPathNameW = __dll.Everything3_GetResultFullPathNameW
-Everything3_GetResultFullPathNameW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultFullPathNameW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultFullPathNameW.restype = ctypes.c_size_t
 
 Everything3_GetResultFullPathNameA = __dll.Everything3_GetResultFullPathNameA
-Everything3_GetResultFullPathNameA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultFullPathNameA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultFullPathNameA.restype = ctypes.c_size_t
 
 Everything3_GetResultSize = __dll.Everything3_GetResultSize
-Everything3_GetResultSize.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultSize.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultSize.restype = ctypes.c_uint64
 
 Everything3_GetResultExtensionUTF8 = __dll.Everything3_GetResultExtensionUTF8
-Everything3_GetResultExtensionUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultExtensionUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultExtensionUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultExtensionW = __dll.Everything3_GetResultExtensionW
-Everything3_GetResultExtensionW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultExtensionW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultExtensionW.restype = ctypes.c_size_t
 
 Everything3_GetResultExtensionA = __dll.Everything3_GetResultExtensionA
-Everything3_GetResultExtensionA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultExtensionA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultExtensionA.restype = ctypes.c_size_t
 
 Everything3_GetResultTypeUTF8 = __dll.Everything3_GetResultTypeUTF8
-Everything3_GetResultTypeUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultTypeUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultTypeUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultTypeW = __dll.Everything3_GetResultTypeW
-Everything3_GetResultTypeW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultTypeW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultTypeW.restype = ctypes.c_size_t
 
 Everything3_GetResultTypeA = __dll.Everything3_GetResultTypeA
-Everything3_GetResultTypeA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultTypeA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultTypeA.restype = ctypes.c_size_t
 
 Everything3_GetResultDateModified = __dll.Everything3_GetResultDateModified
-Everything3_GetResultDateModified.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultDateModified.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultDateModified.restype = ctypes.c_uint64
 
 Everything3_GetResultDateCreated = __dll.Everything3_GetResultDateCreated
-Everything3_GetResultDateCreated.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultDateCreated.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultDateCreated.restype = ctypes.c_uint64
 
 Everything3_GetResultDateAccessed = __dll.Everything3_GetResultDateAccessed
-Everything3_GetResultDateAccessed.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultDateAccessed.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultDateAccessed.restype = ctypes.c_uint64
 
 Everything3_GetResultAttributes = __dll.Everything3_GetResultAttributes
-Everything3_GetResultAttributes.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultAttributes.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultAttributes.restype = wintypes.DWORD
 
 Everything3_GetResultDateRecentlyChanged = __dll.Everything3_GetResultDateRecentlyChanged
-Everything3_GetResultDateRecentlyChanged.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultDateRecentlyChanged.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultDateRecentlyChanged.restype = ctypes.c_uint64
 
 Everything3_GetResultRunCount = __dll.Everything3_GetResultRunCount
-Everything3_GetResultRunCount.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultRunCount.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultRunCount.restype = wintypes.DWORD
 
 Everything3_GetResultDateRun = __dll.Everything3_GetResultDateRun
-Everything3_GetResultDateRun.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultDateRun.argtypes = [wintypes.LPVOID,ctypes.c_size_t,]
 Everything3_GetResultDateRun.restype = ctypes.c_uint64
 
 Everything3_GetResultFilelistFilenameUTF8 = __dll.Everything3_GetResultFilelistFilenameUTF8
-Everything3_GetResultFilelistFilenameUTF8.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultFilelistFilenameUTF8.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultFilelistFilenameUTF8.restype = ctypes.c_size_t
 
 Everything3_GetResultFilelistFilenameW = __dll.Everything3_GetResultFilelistFilenameW
-Everything3_GetResultFilelistFilenameW.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultFilelistFilenameW.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCWSTR,ctypes.c_size_t,]
 Everything3_GetResultFilelistFilenameW.restype = ctypes.c_size_t
 
 Everything3_GetResultFilelistFilenameA = __dll.Everything3_GetResultFilelistFilenameA
-Everything3_GetResultFilelistFilenameA.argtypes = [wintypes.LPVOID,]
+Everything3_GetResultFilelistFilenameA.argtypes = [wintypes.LPVOID,ctypes.c_size_t,wintypes.LPCSTR,ctypes.c_size_t,]
 Everything3_GetResultFilelistFilenameA.restype = ctypes.c_size_t
 

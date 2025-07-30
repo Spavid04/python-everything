@@ -170,7 +170,7 @@ def gen_defines(everythingHeaderPath, outDirectory):
             propertyValueTypes = []
 
             _writeln(f, "class PropertyId(enum.IntEnum):")
-            _writeln(f, "    INVALID_PROPERTY_ID = -1")
+            _writeln(f, "    INVALID_PROPERTY_ID = 0xffffffff")
             ms = re.finditer(rf"^\s*#define\s+EVERYTHING3_PROPERTY_ID_({_CSymbolRegex})\s+({_HexNumberRegex})\s*(?://\s*(.+))?", headerContents, re.M)
             for m in ms:
                 print(f"  property id: {m.group(1)}")
@@ -221,7 +221,14 @@ def gen_functions(everythingHeaderPath, outDirectory):
         "EVERYTHING3_DWORD":         "wintypes.DWORD",
         "EVERYTHING3_INT32":         "ctypes.c_int32",
         "EVERYTHING3_UINT64":        "ctypes.c_uint64",
+        "SIZE_T":                    "ctypes.c_size_t",
         "EVERYTHING3_SIZE_T":        "ctypes.c_size_t",
+
+        "EVERYTHING3_UINT128*":      "ctypes.POINTER(UInt128)",
+        "EVERYTHING3_DIMENSIONS*":   "ctypes.POINTER(Dimensions)",
+
+        "EVERYTHING3_BYTE*":         "ctypes.POINTER(wintypes.BYTE)",
+        "SIZE_T*":                   "ctypes.POINTER(ctypes.c_size_t)",
 
         "WIN32_FIND_DATAA*":         "wintypes.LPWIN32_FIND_DATAA",
         "WIN32_FIND_DATAW*":         "wintypes.LPWIN32_FIND_DATAW",
@@ -236,6 +243,8 @@ def gen_functions(everythingHeaderPath, outDirectory):
 from ctypes import wintypes
 import os
 import sys
+
+from .c_structs import *
 
 
 def __dllimport(name):
@@ -263,7 +272,7 @@ else:
         )
 
         parameterRegex = (
-            r"^\s*"
+            r"\s*"
             r"(?:const\s+)?" # optional const that we throw away
             rf"({_CSymbolRegex})\s*" # [1] parameter type
             r"([\s*]*)" # [2] pointer-ness
